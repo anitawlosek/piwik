@@ -12,6 +12,7 @@ angular.module('piwikApp', [
     'piwikApp.config',
     'piwikApp.service',
     'piwikApp.directive',
-    'piwikApp.filter'
+    'piwikApp.filter',
+    'ngTable'
 ]);
 angular.module('app', []);
