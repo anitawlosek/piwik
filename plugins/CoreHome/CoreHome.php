@@ -46,6 +46,8 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/stylesheets/zen-mode.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.less";
+
+        $jsFiles[] = "libs/ngTable/ng-table.min.css";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -120,6 +122,8 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown-directive.js";
 
         $jsFiles[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline-directive.js";
+
+        $jsFiles[] = "libs/ngTable/ng-table.min.js";
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
