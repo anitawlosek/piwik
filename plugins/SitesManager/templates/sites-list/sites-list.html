@@ -4,8 +4,8 @@
 
     <div ng-include="'plugins/SitesManager/templates/sites-list/add-site-link.html'"></div>
 
-    <table class="entityTable dataTable">
-        <thead>
+    <table ng-table="tableParams" class="entityTable dataTable">
+     <!--   <thead>-->
         <tr>
             <th>{{ 'General_Id'|translate }}</th>
             <th>{{ 'General_Name'|translate }}</th>
@@ -23,15 +23,15 @@
             <th></th>
             <th>{{ 'General_JsTrackingTag'|translate }}</th>
         </tr>
-        </thead>
-        <tbody>
+     <!--   </thead>
+        <tbody>-->
             <tr
                     sites-manager-scroll
                     ng-controller="SitesManagerSiteController"
-                    ng-repeat="site in sites"
+                    ng-repeat="site in $data"
                     ng-include="'plugins/SitesManager/templates/sites-list/site-fields.html'">
             </tr>
-        </tbody>
+      <!--  </tbody>-->
     </table>
 
     <div ng-include="'plugins/SitesManager/templates/sites-list/add-site-link.html'"></div>
