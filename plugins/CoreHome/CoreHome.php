@@ -47,7 +47,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/angularjs/enrichedheadline/enrichedheadline.less";
         $stylesheets[] = "plugins/CoreHome/angularjs/menudropdown/menudropdown.less";
 
-        $stylesheets[] = "libs/ngTable/ng-table.min.css";
+        //$stylesheets[] = "libs/ngTable/ng-table.min.css";
     }
 
     public function getJsFiles(&$jsFiles)

@@ -171,9 +171,17 @@ angular.module('piwikApp').controller('SitesManagerController',
 
         var addSite = function() {
             $scope.sites.push({});
-            $scope.tableParams.reload();
-            //TODO: go to last page/create a new page
+            goToLastPage();
         };
+
+        var goToLastPage = function() {
+            var numberOfSites = $scope.sites.length;
+            var numberOfSitesPerPage = $scope.tableParams.$params.count;
+
+            var lastPage = Math.ceil(numberOfSites/numberOfSitesPerPage);
+
+            $scope.tableParams.page(lastPage);
+        }
 
         var saveGlobalSettings = function() {
 
