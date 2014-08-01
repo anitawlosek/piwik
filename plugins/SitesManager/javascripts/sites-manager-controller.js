@@ -172,6 +172,7 @@ angular.module('piwikApp').controller('SitesManagerController',
         var addSite = function() {
             $scope.sites.push({});
             goToLastPage();
+            reloadTable();
         };
 
         var goToLastPage = function() {
@@ -181,6 +182,10 @@ angular.module('piwikApp').controller('SitesManagerController',
             var lastPage = Math.ceil(numberOfSites/numberOfSitesPerPage);
 
             $scope.tableParams.page(lastPage);
+        }
+
+        var reloadTable = function() {
+            $scope.tableParams.reload();
         }
 
         var saveGlobalSettings = function() {
