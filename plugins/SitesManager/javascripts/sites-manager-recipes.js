@@ -64,13 +64,8 @@ angular.module('piwikApp').factory('sitesManagerApiHelper', function SitesManage
 
         commaDelimitedFieldToArray: function(value) {
 
-            if(value == null || value == ''){
+            if(value == null || value == '')
                 return [];
-            }
-
-            if(value instanceof Array){
-                return value;
-            }
 
             return value.split(',');
         },

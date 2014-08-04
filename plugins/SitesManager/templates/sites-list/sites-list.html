@@ -28,30 +28,10 @@
             <tr
                     sites-manager-scroll
                     ng-controller="SitesManagerSiteController"
-                    ng-repeat="site in sites |
-                        offset: currentPage*sitesPerPage |
-                        limitTo: sitesPerPage"
+                    ng-repeat="site in sites"
                     ng-include="'plugins/SitesManager/templates/sites-list/site-fields.html'">
             </tr>
         </tbody>
-        <tfoot>
-        <td colspan="13">
-            <div class="pagination">
-                <ul>
-                    <li ng-class="prevPageDisabled()">
-                        <a href ng-click="prevPage()">« Prev</a>
-                    </li>
-                    <li ng-repeat="pageNr in pages"
-                        ng-class="{active: pageNr == currentPage}" ng-click="setPage(pageNr)">
-                        <a href="#">{{pageNr+1}}</a>
-                    </li>
-                    <li ng-class="nextPageDisabled()">
-                        <a href ng-click="nextPage()">Next »</a>
-                    </li>
-                </ul>
-            </div>
-        </td>
-        </tfoot>
     </table>
 
     <div ng-include="'plugins/SitesManager/templates/sites-list/add-site-link.html'"></div>
