@@ -93,17 +93,14 @@ class Request
 
         if (!is_null($request)) {
             if (is_array($request)) {
-                $url = array();
-                foreach ($request as $key => $value) {
-                    $url[] = $key . "=" . $value;
-                }
-                $request = implode("&", $url);
+                $requestParsed = $request;
+            } else {
+                $request = trim($request);
+                $request = str_replace(array("\n", "\t"), '', $request);
+
+                $requestParsed = UrlHelper::getArrayFromQueryString($request);
             }
 
-            $request = trim($request);
-            $request = str_replace(array("\n", "\t"), '', $request);
-
-            $requestParsed = UrlHelper::getArrayFromQueryString($request);
             $requestArray = $requestParsed + $defaultRequest;
         }
 
@@ -195,6 +192,9 @@ class Request
 
         // create the response
         $response = new ResponseBuilder($outputFormat, $this->request);
+
+        $corsHandler = new CORSHandler();
+        $corsHandler->handle();
 
         try {
             // read parameters
