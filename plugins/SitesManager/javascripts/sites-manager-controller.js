@@ -68,7 +68,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
             initKeepURLFragmentsList();
 
-            initSiteList();
+            setSitesList();
 
             triggerAddSiteIfRequested();
         });
@@ -176,7 +176,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
     var goToLastPage = function() {
         $scope.currentPage = $scope.pageCount();
-    }
+    };
 
     var saveGlobalSettings = function() {
 
@@ -219,7 +219,21 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
         return sitesInEditMode[0];
     };
 
+    var setNumberOfSites = function (numberOfSites) {
+        $scope.numberOfSites = numberOfSites;
+    };
+
+    var setSitesList = function (){
+
+        sitesManagerAPI.getNumberOfSitesWithAdminAccess(function (numberOfSites) {
+            setNumberOfSites(numberOfSites);
+            paginateSitesList();
+            initSiteList();
+        });
+    };
+
     var initSiteList = function () {
+        $scope.sites = [];
 
         sitesManagerAPI.getSitesWithAdminAccess(function (sites) {
 
@@ -227,9 +241,9 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
                 $scope.sites.push(site);
             });
 
-            paginateSitesList();
             hideLoading();
-        });
+        },{limit: $scope.sitesPerPage,
+            offset: $scope.sitesPerPage * $scope.currentPage});
     };
 
     var initCurrencyList = function () {
@@ -248,17 +262,19 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
     };
 
     var paginateSitesList = function() {
-        $scope.sitesPerPage = 5;
+        $scope.sitesPerPage = 10;
         $scope.currentPage = 0;
         $scope.pages = [];
 
         $scope.setPage = function(pageNr) {
             $scope.currentPage = pageNr;
-        }
+            initSiteList();
+        };
 
         $scope.prevPage = function() {
             if ($scope.currentPage > 0) {
                 $scope.currentPage--;
+                initSiteList();
             }
         };
 
@@ -267,12 +283,13 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
         };
 
         $scope.pageCount = function() {
-            return Math.ceil($scope.sites.length/$scope.sitesPerPage)-1;
+            return Math.ceil($scope.numberOfSites/$scope.sitesPerPage)-1;
         };
 
         $scope.nextPage = function() {
             if ($scope.currentPage < $scope.pageCount()) {
                 $scope.currentPage++;
+                initSiteList();
             }
         };
 
@@ -280,17 +297,24 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
             return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
         };
 
-        for(var i=0; i<=$scope.pageCount(); i++){
+        for(var i=0; i<=$scope.pageCount(); i++) {
             $scope.pages[i] = i;
         }
-    }
+    };
 
     init();
 });
 
-angular.module('piwikApp').filter('offset', function() {
-    return function(input, start) {
-        start = parseInt(start, 10);
-        return input.slice(start);
-    };
+angular.module('piwikApp').filter('filter', function() {
+    return function(pages, currentPage) {
+        if(pages != undefined && currentPage != undefined){
+            var start = Math.max(0, currentPage-5);
+
+            if (currentPage>pages.length-6){
+                start = Math.max(0, pages.length-10)
+            }
+
+            return pages.slice(start);
+        }
+    }
 });

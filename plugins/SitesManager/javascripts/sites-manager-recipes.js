@@ -12,6 +12,7 @@ angular.module('piwikApp').factory('sitesManagerAPI', function SitesManagerAPIFa
     return {
         getCurrencyList: api.fetchApi('SitesManager.getCurrencyList', api.singleObjectAdaptor),
         getSitesWithAdminAccess: api.fetchApi('SitesManager.getSitesWithAdminAccess', api.noop, {fetchAliasUrls: true}),
+        getNumberOfSitesWithAdminAccess: api.fetchApi('SitesManager.getNumberOfSitesWithAdminAccess', api.valueAdaptor),
         getTimezonesList: api.fetchApi('SitesManager.getTimezonesList', api.noop),
         isTimezoneSupportEnabled: api.fetchApi('SitesManager.isTimezoneSupportEnabled', api.valueAdaptor),
         getGlobalSettings: api.fetchAction('SitesManager', 'getGlobalSettings', api.singleObjectAdaptor)
