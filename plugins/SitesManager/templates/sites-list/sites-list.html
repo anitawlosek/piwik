@@ -2,10 +2,11 @@
 
     <div ng-repeat="site in sites" ng-include="'plugins/SitesManager/templates/dialogs/dialogs.html'"></div>
 
-    <div ng-include="'plugins/SitesManager/templates/sites-list/add-site-link.html'"></div>
-
     <table class="entityTable dataTable">
         <thead>
+
+        <td colspan="13" ng-include="'plugins/SitesManager/templates/sites-list/sites-list-first-row.html'"></td>
+
         <tr>
             <th>{{ 'General_Id'|translate }}</th>
             <th>{{ 'General_Name'|translate }}</th>
@@ -33,33 +34,9 @@
             </tr>
         </tbody>
         <tfoot>
-        <td colspan="13">
-            <div class="pagination">
-                <ul>
-                    <li>
-                        <a href ng-click="setPage(0)"><< First</a>
-                    </li>
-                    <li ng-class="prevPageDisabled()">
-                        <a href ng-click="prevPage()">< Prev</a>
-                    </li>
-                    <li ng-repeat="pageNr in pages |
-                        filter: currentPage |
-                        limitTo: 10"
-                        ng-class="{active: pageNr == currentPage}" ng-click="setPage(pageNr)">
-                        <a href="#">{{pageNr+1}}</a>
-                    </li>
-                    <li ng-class="nextPageDisabled()">
-                        <a href ng-click="nextPage()">Next ></a>
-                    </li>
-                    <li>
-                        <a href ng-click="setPage(pageCount())">Last >></a>
-                    </li>
-                </ul>
-            </div>
-        </td>
+        <td colspan="13" ng-include="'plugins/SitesManager/templates/sites-list/sites-list-first-row.html'"></td>
         </tfoot>
     </table>
 
-    <div ng-include="'plugins/SitesManager/templates/sites-list/add-site-link.html'"></div>
 
 </div>

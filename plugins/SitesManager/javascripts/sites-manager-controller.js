@@ -262,7 +262,8 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
     };
 
     var paginateSitesList = function() {
-        $scope.sitesPerPage = 10;
+        setSitesPerPage();
+
         $scope.currentPage = 0;
         $scope.pages = [];
 
@@ -301,6 +302,17 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
             $scope.pages[i] = i;
         }
     };
+
+    var setSitesPerPage = function() {
+        $scope.numbersOfSitesPerPage = [5, 10, 25, 50];
+        $scope.sitesPerPage = 10;
+
+        $scope.setSitesPerPage = function (sitesPerPage) {
+            $scope.sitesPerPage = sitesPerPage;
+            initSiteList();
+        }
+
+    }
 
     init();
 });

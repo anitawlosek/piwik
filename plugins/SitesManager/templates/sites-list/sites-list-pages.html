@@ -1,0 +1,25 @@
+<ul>
+    <li>
+        <a href ng-click="setPage(0)"><< First</a>
+    </li>
+
+    <li ng-class="prevPageDisabled()">
+        <a href ng-click="prevPage()">< Prev</a>
+    </li>
+
+    <li ng-repeat="pageNr in pages |
+                        filter: currentPage |
+                        limitTo: 5"
+        ng-class="{active: pageNr == currentPage}"
+        ng-click="setPage(pageNr)">
+        <a href="#">{{pageNr+1}}</a>
+    </li>
+
+    <li ng-class="nextPageDisabled()">
+        <a href ng-click="nextPage()">Next ></a>
+    </li>
+
+    <li>
+        <a href ng-click="setPage(pageCount())">Last >></a>
+    </li>
+</ul>
