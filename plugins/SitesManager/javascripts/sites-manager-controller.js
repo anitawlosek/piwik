@@ -238,6 +238,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
             });
 
             hideLoading();
+
         },{limit: $scope.sitesPerPage,
             offset: $scope.sitesPerPage * $scope.currentPage,
             filter: {"name": $scope.nameFilter}
@@ -310,7 +311,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
         $scope.filterByName = function(nameFilter) {
             $scope.nameFilter = nameFilter;
-            initSiteList();
+            $scope.setPage(0);
         }
     };
 
