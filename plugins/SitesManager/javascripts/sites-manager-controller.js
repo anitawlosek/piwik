@@ -285,7 +285,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
         };
 
         $scope.nextPage = function() {
-            if ($scope.currentPage < $scope.pageCount()) {
+            if ($scope.currentPage < $scope.pageCount() && !$scope.siteIsBeingEdited) {
                 $scope.currentPage++;
                 initSiteList();
             }
