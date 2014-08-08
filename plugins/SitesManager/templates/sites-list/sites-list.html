@@ -5,7 +5,17 @@
     <table class="entityTable dataTable">
         <thead>
 
-        <td colspan="13" ng-include="'plugins/SitesManager/templates/sites-list/sites-list-first-row.html'"></td>
+        <tr>
+            <td colspan="13" ng-include="'plugins/SitesManager/templates/sites-list/sites-list-first-row.html'"></td>
+        </tr>
+
+        <tr>
+            <td colspan="13">
+                <span>{{ 'General_Name'|translate }}:</span>
+                <input ng-model="nameFilter">
+                <button ng-click="filterByName(nameFilter)">Filter</button>
+            </td>
+        </tr>
 
         <tr>
             <th>{{ 'General_Id'|translate }}</th>

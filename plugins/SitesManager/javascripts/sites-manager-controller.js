@@ -224,6 +224,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
     };
 
     var setSitesList = function (){
+        setFiler();
 
         sitesManagerAPI.getNumberOfSitesWithAdminAccess(function (numberOfSites) {
             setNumberOfSites(numberOfSites);
@@ -243,7 +244,9 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
             hideLoading();
         },{limit: $scope.sitesPerPage,
-            offset: $scope.sitesPerPage * $scope.currentPage});
+            offset: $scope.sitesPerPage * $scope.currentPage,
+            filter: {"name": $scope.nameFilter}
+        });
     };
 
     var initCurrencyList = function () {
@@ -311,8 +314,16 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
             $scope.sitesPerPage = sitesPerPage;
             initSiteList();
         }
+    };
 
-    }
+    var setFiler = function() {
+        $scope.nameFilter = "";
+
+        $scope.filterByName = function(nameFilter) {
+            $scope.nameFilter = nameFilter;
+            initSiteList();
+        }
+    };
 
     init();
 });

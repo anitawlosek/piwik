@@ -22,7 +22,7 @@ class Model
      * @param bool|int $offset
      * @return array
      */
-    public function getSitesFromIds($idSites, $limit = false, $offset = false)
+    public function getSitesFromIds($idSites, $limit = false, $offset = false, $filter = false)
     {
         if (count($idSites) === 0) {
             return array();
@@ -37,10 +37,23 @@ class Model
 
         $idSites = array_map('intval', $idSites);
 
-        $db    = Db::get();
+        $db = Db::get();
+
+        $filterNameSql = "";
+
+        if ($filter) {
+            $filterJson = html_entity_decode($filter);
+            $filterArray = json_decode($filterJson, true);
+            $filterName = $filterArray['name'];
+
+            if (!empty($filterName)){
+               $filterNameSql = "AND name LIKE '%".$filterName."%'";
+            }
+        }
+
         $sites = $db->fetchAll("SELECT *
 								FROM " . Common::prefixTable("site") . "
-								WHERE idsite IN (" . implode(", ", $idSites) . ")
+								WHERE idsite IN (" . implode(", ", $idSites) . ") $filterNameSql
 								ORDER BY idsite ASC $limitSqlString");
 
         return $sites;
