@@ -1,4 +1,4 @@
-<ul>
+<ul ng-show="!siteIsBeingEdited">
     <li ng-repeat="sitesPerPage in numbersOfSitesPerPage">
         <button ng-click="setSitesPerPage(sitesPerPage)"> {{sitesPerPage}}</button>
     </li>

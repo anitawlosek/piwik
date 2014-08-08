@@ -169,13 +169,8 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
     };
 
     var addSite = function() {
+        $scope.setPage($scope.pageCount());
         $scope.sites.push({});
-
-        goToLastPage();
-    };
-
-    var goToLastPage = function() {
-        $scope.currentPage = $scope.pageCount();
     };
 
     var saveGlobalSettings = function() {
@@ -271,19 +266,17 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
         $scope.pages = [];
 
         $scope.setPage = function(pageNr) {
-            $scope.currentPage = pageNr;
-            initSiteList();
-        };
-
-        $scope.prevPage = function() {
-            if ($scope.currentPage > 0) {
-                $scope.currentPage--;
+            if(!$scope.siteIsBeingEdited){
+                $scope.currentPage = pageNr;
                 initSiteList();
             }
         };
 
-        $scope.prevPageDisabled = function() {
-            return $scope.currentPage === 0 ? "disabled" : "";
+        $scope.prevPage = function() {
+            if ($scope.currentPage > 0 && !$scope.siteIsBeingEdited) {
+                $scope.currentPage--;
+                initSiteList();
+            }
         };
 
         $scope.pageCount = function() {
@@ -295,10 +288,6 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
                 $scope.currentPage++;
                 initSiteList();
             }
-        };
-
-        $scope.nextPageDisabled = function() {
-            return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
         };
 
         for(var i=0; i<=$scope.pageCount(); i++) {
