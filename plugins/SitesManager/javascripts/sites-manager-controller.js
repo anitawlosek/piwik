@@ -330,14 +330,17 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
 angular.module('piwikApp').filter('filter', function() {
     return function(pages, currentPage) {
+        var numberOfVisiblePages = 5;
+
         if(pages != undefined && currentPage != undefined){
-            var start = Math.max(0, currentPage-5);
+            var start = Math.max(0, currentPage - numberOfVisiblePages +1);
 
             if (currentPage>pages.length-6){
-                start = Math.max(0, pages.length-10)
+                start = Math.max(0, pages.length - numberOfVisiblePages)
             }
 
             return pages.slice(start);
         }
+        return [];
     }
 });
