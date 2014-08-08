@@ -302,7 +302,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
         $scope.setSitesPerPage = function (sitesPerPage) {
             $scope.sitesPerPage = sitesPerPage;
-            initSiteList();
+            $scope.setPage(0);
         }
     };
 
