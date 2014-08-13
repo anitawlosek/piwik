@@ -307,13 +307,13 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
     };
 
     var setFiler = function() {
-        $scope.filter = {
-            'name': '',
-            'main_url': '',
-            'sitesearch': '',
-            'timezone': '',
-            'currency': ''
-        };
+        $scope.filter = {};
+
+        $scope.resetFilter = function(){
+            $scope.filter = {};
+
+            $scope.setPage(0);
+        }
     };
 
     init();
