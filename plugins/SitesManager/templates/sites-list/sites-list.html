@@ -6,14 +6,24 @@
         <thead>
 
         <tr>
-            <td colspan="13" ng-include="'plugins/SitesManager/templates/sites-list/sites-list-first-row.html'"></td>
+            <td colspan="13"
+                ng-include="'plugins/SitesManager/templates/sites-list/sites-list-first-row.html'"></td>
         </tr>
 
         <tr>
-            <td ng-show="!siteIsBeingEdited" colspan="13">
-                <span>{{ 'General_Name'|translate }}:</span>
-                <input ng-model="nameFilter">
-                <button ng-click="filterByName(nameFilter)">Filter</button>
+            <td ng-show="!siteIsBeingEdited && isFilterVisible"
+                ng-include="'plugins/SitesManager/templates/sites-list/sites-list-filter.html'"
+                colspan="13"
+                class="center"></td>
+        </tr>
+
+        <tr>
+            <td colspan="13"
+                ng-click="isFilterVisible=!isFilterVisible"
+                class="center">
+
+                <span ng-if="isFilterVisible">^<br />Hide filter settings</span>
+                <span ng-if="!isFilterVisible">Show filter settings<br />v</span>
             </td>
         </tr>
 

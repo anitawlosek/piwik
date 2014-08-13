@@ -39,21 +39,29 @@ class Model
 
         $db = Db::get();
 
-        $filterNameSql = "";
+        $filterSql = "";
 
         if ($filter) {
             $filterJson = html_entity_decode($filter);
             $filterArray = json_decode($filterJson, true);
-            $filterName = $filterArray['name'];
 
-            if (!empty($filterName)){
-               $filterNameSql = "AND name LIKE '%".$filterName."%'";
-            }
+             foreach($filterArray as $name => $value) {
+                 if ($name=="sitesearch"){
+                     if($value != ""){
+                         $filterSql .= " AND $name=$value";
+                     }
+                 } else {
+                    if (!empty($value)){
+                            $filterSql .= " AND $name LIKE '%".$value."%'";
+                    }
+                 }
+             }
         }
+
 
         $sites = $db->fetchAll("SELECT *
 								FROM " . Common::prefixTable("site") . "
-								WHERE idsite IN (" . implode(", ", $idSites) . ") $filterNameSql
+								WHERE idsite IN (" . implode(", ", $idSites) . ") $filterSql
 								ORDER BY idsite ASC $limitSqlString");
 
         return $sites;

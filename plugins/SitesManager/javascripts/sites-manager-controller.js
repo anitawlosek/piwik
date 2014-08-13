@@ -241,7 +241,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
         },{limit: $scope.sitesPerPage,
             offset: $scope.sitesPerPage * $scope.currentPage,
-            filter: {"name": $scope.nameFilter}
+            filter: $scope.filter
         });
     };
 
@@ -307,12 +307,13 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
     };
 
     var setFiler = function() {
-        $scope.nameFilter = "";
-
-        $scope.filterByName = function(nameFilter) {
-            $scope.nameFilter = nameFilter;
-            $scope.setPage(0);
-        }
+        $scope.filter = {
+            'name': '',
+            'main_url': '',
+            'sitesearch': '',
+            'timezone': '',
+            'currency': ''
+        };
     };
 
     init();

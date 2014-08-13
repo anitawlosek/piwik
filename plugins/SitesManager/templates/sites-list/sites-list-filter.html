@@ -1,0 +1,33 @@
+<form>
+    <label for="name">{{ 'General_Name'|translate }}:</label>
+    <input id="name"
+           ng-model="filter.name">
+
+    <label for="main_url">{{ 'SitesManager_Urls'|translate }}:</label>
+    <input id="main_url"
+           ng-model="filter.main_url">
+
+    <label for="sitesearch">{{ 'Actions_SubmenuSitesearch'|translate }}:</label>
+    <select id="sitesearch"
+            ng-model="filter.sitesearch"
+            ng-options="option.key as option.value for option in siteSearchOptions">
+        <option value="">Any</option>
+    </select>
+
+    <label for="timezone">{{ 'SitesManager_Timezone'|translate }}:</label>
+    <select id="timezone"
+            ng-model="filter.timezone"
+            ng-options="t.code as t.label group by t.group for t in timezones">
+        <option value="">Any</option>
+    </select>
+
+    <label for="currency">{{ 'SitesManager_Currency'|translate }}:</label>
+    <select id="currency"
+            ng-model="filter.currency"
+            ng-options="k as v for (k, v) in currencies">
+        <option value="">Any</option>
+    </select>
+
+    <br />
+    <button type="submit" ng-click="setPage(0)">Filter</button>
+</form>
