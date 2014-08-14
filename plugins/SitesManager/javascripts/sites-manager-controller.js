@@ -170,7 +170,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
     };
 
     var addSite = function() {
-        $scope.setPage($scope.pageCount());
+        //$scope.setPage($scope.pageCount());
         $scope.sites.push({});
     };
 
