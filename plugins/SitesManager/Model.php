@@ -71,11 +71,6 @@ class Model
         }
 
         $filterSql = $this -> getFilterSqlFromObject($filter);
-
-        if(!$sortingBy){
-            $sortingBy = 'idsite';
-        }
-
         $idSites = array_map('intval', $idSites);
         $db = Db::get();
 
