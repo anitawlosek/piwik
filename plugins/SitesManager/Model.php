@@ -49,10 +49,12 @@ class Model
             foreach($filterArray as $name => $value) {
                 if ($name=="sitesearch"){
                     if($value != ""){
+                        $value = addslashes($value);
                         $filterSql .= " AND $name=$value";
                     }
                 } else {
                     if (!empty($value)){
+                        $value = addslashes($value);
                         $filterSql .= " AND $name LIKE '%".$value."%'";
                     }
                 }
@@ -96,10 +98,12 @@ class Model
             foreach($filterArray as $name => $value) {
                 if ($name=="sitesearch"){
                     if($value != ""){
+                        $value = addslashes($value);
                         $filterSql .= " AND $name=$value";
                     }
                 } else {
                     if (!empty($value)){
+                        $value = addslashes($value);
                         $filterSql .= " AND $name LIKE '%".$value."%'";
                     }
                 }
