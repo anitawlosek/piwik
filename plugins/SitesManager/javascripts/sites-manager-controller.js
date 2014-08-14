@@ -277,7 +277,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
         for(var i=0; i<= numberOfPages; i++) {
             $scope.pages[i] = i;
         }
-    }
+    };
 
     var paginateSitesList = function() {
         setSitesPerPage();

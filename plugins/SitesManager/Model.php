@@ -14,6 +14,34 @@ use Exception;
 
 class Model
 {
+
+
+    private function getFilterSqlFromObject($filter)
+    {
+        $filterSql = "";
+
+        if($filter){
+            $filterJson = html_entity_decode($filter);
+            $filterArray = json_decode($filterJson, true);
+
+            foreach($filterArray as $name => $value) {
+                if ($name=="sitesearch"){
+                    if($value != ""){
+                        $value = addslashes($value);
+                        $filterSql .= " AND $name=$value";
+                    }
+                } else {
+                    if (!empty($value)){
+                        $value = addslashes($value);
+                        $filterSql .= " AND $name LIKE '%".$value."%'";
+                    }
+                }
+            }
+        }
+
+        return $filterSql;
+    }
+
     /**
      * Returns the list of websites from the ID array in parameters.
      *
@@ -36,30 +64,9 @@ class Model
             $limitSqlString = "LIMIT " . (int) $limit;
         }
 
+        $filterSql = $this -> getFilterSqlFromObject($filter);
         $idSites = array_map('intval', $idSites);
-
         $db = Db::get();
-
-        $filterSql = "";
-
-        if ($filter) {
-            $filterJson = html_entity_decode($filter);
-            $filterArray = json_decode($filterJson, true);
-
-            foreach($filterArray as $name => $value) {
-                if ($name=="sitesearch"){
-                    if($value != ""){
-                        $value = addslashes($value);
-                        $filterSql .= " AND $name=$value";
-                    }
-                } else {
-                    if (!empty($value)){
-                        $value = addslashes($value);
-                        $filterSql .= " AND $name LIKE '%".$value."%'";
-                    }
-                }
-            }
-        }
 
 
         $sites = $db->fetchAll("SELECT *
@@ -74,8 +81,6 @@ class Model
  * Returns the number of websites from the ID array in parameters.
  *
  * @param array $idSites list of website ID
- * @param bool $limit
- * @param bool|int $offset
  * @param bool|String $filter
  * @return number
  */
@@ -85,30 +90,9 @@ class Model
             return array();
         }
 
+        $filterSql = $this -> getFilterSqlFromObject($filter);
         $idSites = array_map('intval', $idSites);
-
         $db = Db::get();
-
-        $filterSql = "";
-
-        if ($filter) {
-            $filterJson = html_entity_decode($filter);
-            $filterArray = json_decode($filterJson, true);
-
-            foreach($filterArray as $name => $value) {
-                if ($name=="sitesearch"){
-                    if($value != ""){
-                        $value = addslashes($value);
-                        $filterSql .= " AND $name=$value";
-                    }
-                } else {
-                    if (!empty($value)){
-                        $value = addslashes($value);
-                        $filterSql .= " AND $name LIKE '%".$value."%'";
-                    }
-                }
-            }
-        }
 
 
         $numberOfSites = $db->fetchOne("SELECT COUNT(*)
