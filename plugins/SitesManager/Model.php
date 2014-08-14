@@ -20,6 +20,7 @@ class Model
      * @param array $idSites list of website ID
      * @param bool $limit
      * @param bool|int $offset
+     * @param bool|String $filter
      * @return array
      */
     public function getSitesFromIds($idSites, $limit = false, $offset = false, $filter = false)
@@ -45,17 +46,17 @@ class Model
             $filterJson = html_entity_decode($filter);
             $filterArray = json_decode($filterJson, true);
 
-             foreach($filterArray as $name => $value) {
-                 if ($name=="sitesearch"){
-                     if($value != ""){
-                         $filterSql .= " AND $name=$value";
-                     }
-                 } else {
-                    if (!empty($value)){
-                            $filterSql .= " AND $name LIKE '%".$value."%'";
+            foreach($filterArray as $name => $value) {
+                if ($name=="sitesearch"){
+                    if($value != ""){
+                        $filterSql .= " AND $name=$value";
                     }
-                 }
-             }
+                } else {
+                    if (!empty($value)){
+                        $filterSql .= " AND $name LIKE '%".$value."%'";
+                    }
+                }
+            }
         }
 
 
@@ -65,6 +66,52 @@ class Model
 								ORDER BY idsite ASC $limitSqlString");
 
         return $sites;
+    }
+
+/**
+ * Returns the number of websites from the ID array in parameters.
+ *
+ * @param array $idSites list of website ID
+ * @param bool $limit
+ * @param bool|int $offset
+ * @param bool|String $filter
+ * @return number
+ */
+    public function getNumberOfSitesFromIds($idSites, $filter = false)
+    {
+        if (count($idSites) === 0) {
+            return array();
+        }
+
+        $idSites = array_map('intval', $idSites);
+
+        $db = Db::get();
+
+        $filterSql = "";
+
+        if ($filter) {
+            $filterJson = html_entity_decode($filter);
+            $filterArray = json_decode($filterJson, true);
+
+            foreach($filterArray as $name => $value) {
+                if ($name=="sitesearch"){
+                    if($value != ""){
+                        $filterSql .= " AND $name=$value";
+                    }
+                } else {
+                    if (!empty($value)){
+                        $filterSql .= " AND $name LIKE '%".$value."%'";
+                    }
+                }
+            }
+        }
+
+
+        $numberOfSites = $db->fetchOne("SELECT COUNT(*)
+								FROM " . Common::prefixTable("site") . "
+								WHERE idsite IN (" . implode(", ", $idSites) . ") $filterSql");
+
+        return $numberOfSites;
     }
 
     /**

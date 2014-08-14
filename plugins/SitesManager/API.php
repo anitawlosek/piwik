@@ -318,6 +318,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $fetchAliasUrls
      * @param bool|int $limit
      * @param bool|int $offset
+     * @param bool|String $filter
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
     public function getSitesWithAdminAccess($fetchAliasUrls = false, $limit = false, $offset = false, $filter = false)
@@ -330,6 +331,20 @@ class API extends \Piwik\Plugin\API
                 $site['alias_urls'] = API::getInstance()->getSiteUrlsFromId($site['idsite']);
 
         return $sites;
+    }
+
+    /**
+     * Returns the number of websites with the 'admin' access for the current user.
+     * For the superUser it returns all the websites in the database.
+     *
+     * @param bool|String $filter
+     * @return number for each site, an array of information (idsite, name, main_url, etc.)
+     */
+    public function getNumberOfSitesWithAdminAccess($filter = false)
+    {
+        $sitesId = $this->getSitesIdWithAdminAccess();
+
+        return $this->getNumberOfSitesFromIds($sitesId, $filter);
     }
 
     /**
@@ -374,17 +389,6 @@ class API extends \Piwik\Plugin\API
     {
         $sitesId = Access::getInstance()->getSitesIdWithAdminAccess();
         return $sitesId;
-    }
-
-    /**
-     * Returns number of websites ID with the 'admin' access for the current user.
-     * For the superUser it returns number of all the websites in the database.
-     *
-     * @return int
-     */
-    public function getNumberOfSitesWithAdminAccess()
-    {
-        return count(Access::getInstance()->getSitesIdWithAdminAccess());
     }
 
     /**
@@ -441,6 +445,7 @@ class API extends \Piwik\Plugin\API
      * @param array $idSites list of website ID
      * @param bool $limit
      * @param bool|int $offset
+     * @param bool|String $filter
      * @return array
      */
     private function getSitesFromIds($idSites, $limit = false, $offset = false, $filter = false)
@@ -450,6 +455,20 @@ class API extends \Piwik\Plugin\API
         Site::setSitesFromArray($sites);
 
         return $sites;
+    }
+
+
+    /**
+     * Returns the number of websites from the ID array in parameters.
+     * The user access is not checked in this method so the ID have to be accessible by the user!
+     *
+     * @param array $idSites list of website ID
+     * @param bool|String $filter
+     * @return number
+     */
+    private function getNumberOfSitesFromIds($idSites, $filter = false)
+    {
+        return $this->getModel()->getNumberOfSitesFromIds($idSites, $filter);
     }
 
     protected function getNormalizedUrls($url)

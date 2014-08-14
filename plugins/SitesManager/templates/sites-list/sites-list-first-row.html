@@ -4,6 +4,6 @@
 
     <div ng-include="'plugins/SitesManager/templates/sites-list/sites-per-page.html'" class="sitesPerPageChooser"></div>
 
-    <div ng-include="'plugins/SitesManager/templates/sites-list/sites-list-pages.html'" class="pagesList"></div>
+    <div ng-hide="pageCount() <= 0" ng-include="'plugins/SitesManager/templates/sites-list/sites-list-pages.html'" class="pagesList"></div>
 
 </div>

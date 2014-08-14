@@ -68,6 +68,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
             initKeepURLFragmentsList();
 
+            setFilerOfSitesList();
             setSitesList();
 
             triggerAddSiteIfRequested();
@@ -215,16 +216,25 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
     };
 
     var setNumberOfSites = function (numberOfSites) {
-        $scope.numberOfSites = numberOfSites;
+        $scope.numberOfSites = $scope.numberOfFilteredSites = numberOfSites;
+    };
+
+    var setNumberOfFilteredSites = function (numberOfSites) {
+        $scope.numberOfFilteredSites = numberOfSites;
     };
 
     var setSitesList = function (){
-        setFiler();
 
         sitesManagerAPI.getNumberOfSitesWithAdminAccess(function (numberOfSites) {
-            setNumberOfSites(numberOfSites);
+            if(jQuery.isEmptyObject($scope.filter)){
+                setNumberOfSites(numberOfSites);
+            } else {
+                setNumberOfFilteredSites(numberOfSites);
+            }
             paginateSitesList();
             initSiteList();
+        },{
+            filter: $scope.filter
         });
     };
 
@@ -260,11 +270,19 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
         $scope.loading = false;
     };
 
+    var initPages = function() {
+        $scope.pages = [];
+        var numberOfPages = $scope.pageCount();
+
+        for(var i=0; i<= numberOfPages; i++) {
+            $scope.pages[i] = i;
+        }
+    }
+
     var paginateSitesList = function() {
         setSitesPerPage();
 
         $scope.currentPage = 0;
-        $scope.pages = [];
 
         $scope.setPage = function(pageNr) {
             if(!$scope.siteIsBeingEdited){
@@ -281,19 +299,22 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
         };
 
         $scope.pageCount = function() {
-            return Math.ceil($scope.numberOfSites/$scope.sitesPerPage)-1;
+            if($scope.numberOfFilteredSites === undefined){
+                $scope.numberOfFilteredSites = $scope.numberOfSites;
+            }
+            return Math.ceil($scope.numberOfFilteredSites/$scope.sitesPerPage)-1;
         };
 
         $scope.nextPage = function() {
-            if ($scope.currentPage < $scope.pageCount() && !$scope.siteIsBeingEdited) {
+            var numberOfPages = $scope.pageCount();
+
+            if ($scope.currentPage < numberOfPages && !$scope.siteIsBeingEdited) {
                 $scope.currentPage++;
                 initSiteList();
             }
         };
 
-        for(var i=0; i<=$scope.pageCount(); i++) {
-            $scope.pages[i] = i;
-        }
+        initPages();
     };
 
     var setSitesPerPage = function() {
@@ -306,14 +327,17 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
         }
     };
 
-    var setFiler = function() {
+    var setFilerOfSitesList = function() {
         $scope.filter = {};
 
         $scope.resetFilter = function(){
             $scope.filter = {};
+            setSitesList();
+        };
 
-            $scope.setPage(0);
-        }
+        $scope.filtrate = function() {
+            setSitesList();
+        };
     };
 
     init();
