@@ -57,7 +57,7 @@ class Model
      * @param bool|String $filter
      * @return array
      */
-    public function getSitesFromIds($idSites, $limit = false, $offset = false, $filter = false)
+    public function getSitesFromIds($idSites, $limit = false, $offset = false, $filter = false, $sortingBy = 'idsite')
     {
         if (count($idSites) === 0) {
             return array();
@@ -71,6 +71,11 @@ class Model
         }
 
         $filterSql = $this -> getFilterSqlFromObject($filter);
+
+        if(!$sortingBy){
+            $sortingBy = 'idsite';
+        }
+
         $idSites = array_map('intval', $idSites);
         $db = Db::get();
 
@@ -78,7 +83,7 @@ class Model
         $sites = $db->fetchAll("SELECT *
 								FROM " . Common::prefixTable("site") . "
 								WHERE idsite IN (" . implode(", ", $idSites) . ") $filterSql
-								ORDER BY idsite ASC $limitSqlString");
+								ORDER BY $sortingBy ASC $limitSqlString");
 
         return $sites;
     }

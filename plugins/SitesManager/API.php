@@ -321,10 +321,10 @@ class API extends \Piwik\Plugin\API
      * @param bool|String $filter
      * @return array for each site, an array of information (idsite, name, main_url, etc.)
      */
-    public function getSitesWithAdminAccess($fetchAliasUrls = false, $limit = false, $offset = false, $filter = false)
+    public function getSitesWithAdminAccess($fetchAliasUrls = false, $limit = false, $offset = false, $filter = false, $sortingBy = 'idsite')
     {
         $sitesId = $this->getSitesIdWithAdminAccess();
-        $sites = $this->getSitesFromIds($sitesId, $limit, $offset, $filter);
+        $sites = $this->getSitesFromIds($sitesId, $limit, $offset, $filter, $sortingBy);
 
         if ($fetchAliasUrls)
             foreach ($sites as &$site)
@@ -448,9 +448,9 @@ class API extends \Piwik\Plugin\API
      * @param bool|String $filter
      * @return array
      */
-    private function getSitesFromIds($idSites, $limit = false, $offset = false, $filter = false)
+    private function getSitesFromIds($idSites, $limit = false, $offset = false, $filter = false, $sortingBy = 'idsite')
     {
-        $sites = $this->getModel()->getSitesFromIds($idSites, $limit, $offset, $filter);
+        $sites = $this->getModel()->getSitesFromIds($idSites, $limit, $offset, $filter, $sortingBy);
 
         Site::setSitesFromArray($sites);
 

@@ -28,18 +28,19 @@
         </tr>
 
         <tr>
-            <th >{{ 'General_Id'|translate }}</th>
-            <th>{{ 'General_Name'|translate }}</th>
-            <th>{{ 'SitesManager_Urls'|translate }}</th>
-            <th>{{ 'SitesManager_ExcludedIps'|translate }}</th>
-            <th>{{ 'SitesManager_ExcludedParameters'|translate }}</th>
-            <th ng-show="globalSettings.siteSpecificUserAgentExcludeEnabled">
+            <th ng-click="sortBy('idsite')">{{ 'General_Id'|translate }}</th>
+            <th ng-click="sortBy('name')">{{ 'General_Name'|translate }}</th>
+            <th ng-click="sortBy('main_url')">{{ 'SitesManager_Urls'|translate }}</th>
+            <th ng-click="sortBy('excluded_ips')">{{ 'SitesManager_ExcludedIps'|translate }}</th>
+            <th ng-click="sortBy('excluded_parameters')">{{ 'SitesManager_ExcludedParameters'|translate }}</th>
+            <th ng-show="globalSettings.siteSpecificUserAgentExcludeEnabled"
+                ng-click="sortBy('excluded_user_agents')">
                 {{ 'SitesManager_ExcludedUserAgents'|translate }}
             </th>
-            <th>{{ 'Actions_SubmenuSitesearch'|translate }}</th>
-            <th>{{ 'SitesManager_Timezone'|translate }}</th>
-            <th>{{ 'SitesManager_Currency'|translate }}</th>
-            <th>{{ 'Goals_Ecommerce'|translate }}</th>
+            <th ng-click="sortBy('sitesearch')">{{ 'Actions_SubmenuSitesearch'|translate }}</th>
+            <th ng-click="sortBy('timezone')">{{ 'SitesManager_Timezone'|translate }}</th>
+            <th ng-click="sortBy('currency')">{{ 'SitesManager_Currency'|translate }}</th>
+            <th ng-click="sortBy('ecommerce')">{{ 'Goals_Ecommerce'|translate }}</th>
             <th></th>
             <th></th>
             <th>{{ 'General_JsTrackingTag'|translate }}</th>

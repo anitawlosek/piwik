@@ -69,6 +69,7 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
             initKeepURLFragmentsList();
 
             setFilerOfSitesList();
+            setFieldSortingSitesListBy();
             setSitesList();
 
             triggerAddSiteIfRequested();
@@ -251,7 +252,8 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
 
         },{limit: $scope.sitesPerPage,
             offset: $scope.sitesPerPage * $scope.currentPage,
-            filter: $scope.filter
+            filter: $scope.filter,
+            sortingBy: $scope.sortingBy
         });
     };
 
@@ -339,6 +341,15 @@ angular.module('piwikApp').controller('SitesManagerController', function ($scope
             setSitesList();
         };
     };
+
+    var setFieldSortingSitesListBy = function() {
+        $scope.sortingBy = 'idsite';
+
+        $scope.sortBy = function(columnName) {
+            $scope.sortingBy = columnName;
+            initSiteList();
+        }
+    }
 
     init();
 });
