@@ -446,6 +446,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $limit
      * @param bool|int $offset
      * @param bool|String $filter
+     * @param bool|String $sortingBy
      * @return array
      */
     private function getSitesFromIds($idSites, $limit = false, $offset = false, $filter = false, $sortingBy = 'idsite')
